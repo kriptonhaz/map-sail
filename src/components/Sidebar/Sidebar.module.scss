@@ -1,0 +1,139 @@
+.Container {
+  width: 240px;
+  height: calc(100vh - ($space-5 * 2));
+  border-radius: 12px;
+  background: linear-gradient(180deg, #12243B 0%, #121F33 29.37%, #111527 100%);
+  padding: 24px 20px;
+  color: #fff;
+  overflow: auto;
+  transition: .5s;
+
+  &.Collapse {
+    width: 80px;
+
+    .Menu {
+      width: 40px;
+      height: 40px;
+
+      :global(p.MuiTypography-root) {
+        display: none;
+        min-width: 160px;
+      }
+    }
+  }
+
+  .Header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $space-4;
+    border-bottom: 1px solid $primary-500;
+    padding-bottom: $space-6;
+
+    .Title {
+      font-weight: 600;
+      line-height: 120%;
+    }
+
+    .Subtitle {
+      font-size: $text-caption;
+      font-weight: 500;
+      color: #6D83A2;
+    }
+  }
+
+  .ListMenu {
+    display: flex;
+    flex-direction: column;
+    padding: $space-6 0px;
+    gap: $space-4;
+
+    .Menu {
+      display: flex;
+      overflow: visible;
+      flex-direction: row;
+      justify-content: flex-start;
+      border-radius: 12px;
+      background-color: transparent;
+      color: #6D83A2;
+      padding: 0px 4px;
+      min-width: 0px;
+
+      &:hover {
+        color: #fff;
+
+        svg {
+          color: #00FFFF;
+        }
+      }
+
+      &.Active {
+        color: #fff;
+        background-color: #084460;
+
+        svg {
+          color: #00FFFF;
+        }
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      .Icon {
+        width: 40px;
+        height: 40px;
+        position: relative;
+
+        svg {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 24px;
+          height: 24px;
+          transition: .25s;
+        }
+      }
+
+      :global(p.MuiTypography-root) {
+        flex: 1;
+        min-width: 140px;
+        text-align: left;
+        padding: $space-3 $space-1;
+        font-size: $text-body2;
+        font-weight: 500;
+      }
+    }
+
+    .InnerMenu {
+      display: flex;
+      flex-direction: column;
+      gap: $space-3;
+      padding: $space-1 0px;
+      background-color: #113245;
+      border-radius: 12px;
+
+      .Menu {
+        color: #6A9C95;
+
+        &:hover {
+          color: #fff;
+
+          svg {
+            color: #00DC8D;
+          }
+        }
+
+        &.Active {
+          color: #fff;
+          background-color: #084460;
+
+          svg {
+            color: #00DC8D;
+          }
+        }
+      }
+    }
+  }
+}

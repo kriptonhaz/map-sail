@@ -1,0 +1,67 @@
+.Container {
+
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0px $space-4 $space-4 $space-4;
+
+  .TopElement {
+    background-color: #fff;
+    height: 20px;
+    top: -16px;
+    left: -16px;
+    width: 50%;
+    border-top-left-radius: 8px;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      z-index: 100;
+      right: -20px;
+      width: 0;
+      height: 0;
+      border-bottom: 20px solid #fff;
+      border-right: 20px solid transparent;
+    }
+  }
+
+  .Label {
+    color: $neutral-500;
+    font-weight: 500;
+  }
+
+  .Value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .StatisticValue {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    .TrendIcon {
+      width: 20px;
+      height: 20px;
+    }
+
+    &.Up {
+      color: $success-700;
+
+      .TrendIcon {
+        background-color: $success-50;
+      }
+    }
+
+    &.Down {
+      color: $danger-700;
+
+      .TrendIcon {
+        background-color: $danger-50;
+      }
+    }
+  }
+
+}

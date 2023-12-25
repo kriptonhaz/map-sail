@@ -1,0 +1,16 @@
+.Root {
+
+  :global(.MuiDataGrid-root) {
+    border: none;
+
+    :global(.MuiDataGrid-columnHeaders) {
+      color: $neutral-400;
+      font-size: 12px;
+
+      :global(.MuiDataGrid-iconButtonContainer) {
+        margin-left: 8px;
+      }
+    }
+
+  }
+}

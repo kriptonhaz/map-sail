@@ -4,7 +4,7 @@ import { spacing } from "@/themes/ts/spacing"
 import { Box, CircularProgress, SxProps } from "@mui/material"
 import React, { lazy, Suspense } from "react"
 
-const VesselScreen = lazy(() => import("@/core/dashboard/vessel"))
+const DatabaseScreen = lazy(() => import("@/core/dashboard/database"))
 
 const styles: { container: SxProps; content: SxProps } = {
   container: {
@@ -14,26 +14,27 @@ const styles: { container: SxProps; content: SxProps } = {
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
     padding: `${spacing[5]}px`,
   },
   content: {
     flex: "1",
-    maxWidth: "calc(100% - 240px)",
     padding: `${spacing[8]}px ${spacing[6]}px`,
+    maxWidth: "calc(100% - 240px)",
   },
 }
 
-const VesselPage: React.FC = () => {
+const DatabasePage: React.FC = () => {
   return (
     <Suspense fallback={<CircularProgress />}>
       <Box sx={styles.container}>
         <Sidebar />
         <Box sx={styles.content}>
-          <VesselScreen />
+          <DatabaseScreen />
         </Box>
       </Box>
     </Suspense>
   )
 }
 
-export default VesselPage
+export default DatabasePage

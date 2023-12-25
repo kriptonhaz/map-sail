@@ -1,15 +1,15 @@
-import { Typography } from "@mui/material";
-import React, { useId } from "react";
-import feather, { FeatherIconNames } from "feather-icons";
-import { SxProps } from "@mui/system";
+import { Typography } from "@mui/material"
+import React, { useId } from "react"
+import feather, { FeatherIconNames } from "feather-icons"
+import { SxProps } from "@mui/system"
 
 export interface FeatherIconInterface {
-  icon: string | FeatherIconNames;
-  sx?: SxProps;
+  icon: string | FeatherIconNames
+  sx?: SxProps
 }
 
 const FeatherIcon: React.FC<FeatherIconInterface> = ({ icon, sx }) => {
-  const id = useId();
+  const id = useId()
 
   return (
     <Typography
@@ -22,7 +22,7 @@ const FeatherIcon: React.FC<FeatherIconInterface> = ({ icon, sx }) => {
       }}
       sx={sx}
     ></Typography>
-  );
-};
+  )
+}
 
-export default FeatherIcon;
+export default FeatherIcon

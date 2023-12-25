@@ -1,0 +1,115 @@
+.Container {
+  position: absolute;
+  min-width: 380px;
+  max-width: 460px;
+
+  .Header {
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+  }
+
+  .Thumbnail {
+    border-radius: 12px;
+    height: 216px;
+    overflow: hidden;
+    margin-top: $space-2;
+    margin-bottom: $space-4;
+    position: relative;
+
+    .Image {
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+    }
+
+    .Description {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      padding: 8px;
+      background-color: rgba($color: #000000, $alpha: 0.6);
+      color: rgba($color: #fff, $alpha: 0.8);
+      border-radius: 4px;
+      max-width: 280px;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+
+  .Progress {
+    height: 40px;
+    margin: $space-2 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ProgressTrack {
+      background-color: #000;
+      width: 100%;
+      height: 3px;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background-color: $primary-500;
+        transform: rotate(45deg) translate(-4px, -5px);
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+        transform: rotate(45deg) translate(-7px, -5px);
+      }
+
+      span.CurrentProgress {
+        display: block;
+        background-color: $primary-500;
+        height: 3px;
+      }
+    }
+
+    .ProgressThumb {
+      position: absolute;
+      transform: translateY(-15px);
+      transform-origin: center;
+    }
+  }
+
+  .DataJourney {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $space-2;
+    margin-bottom: $space-4;
+
+    .Box {
+      background-color: $neutral-100;
+      padding: $space-3;
+
+      p {
+        font-size: 12px;
+        line-height: 150%;
+      }
+    }
+  }
+
+  .Label {
+    color: neutral-900;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: $space-1;
+  }
+
+  .Value {
+    color: #888CB6;
+    font-weight: 500;
+  }
+}

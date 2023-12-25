@@ -1,0 +1,43 @@
+.Container {
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  position: relative;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:global(.neutral) {
+    background-color: $neutral-600;
+  }
+
+  &:global(.primary) {
+    background-color: $primary-600;
+  }
+
+  &:global(.secondary) {
+    background-color: $secondary-600;
+  }
+
+  &:global(.info) {
+    background-color: $info-600;
+  }
+
+  &:global(.success) {
+    background-color: $success-600;
+  }
+
+  &:global(.warning) {
+    background-color: $warning-600;
+  }
+
+  &:global(.danger) {
+    background-color: $danger-600;
+  }
+}

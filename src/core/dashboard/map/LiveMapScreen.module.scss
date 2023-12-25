@@ -1,0 +1,171 @@
+.Container {
+
+  .TopWidget,
+  .ZoomWidget {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    padding: $space-6;
+    background-color: #132238;
+    position: fixed;
+    right: 20px;
+    border-radius: 12px;
+
+    .Menu {
+      position: relative;
+      border-radius: 12px;
+      background-color: transparent;
+      color: #6D83A2;
+      padding: 0px 4px;
+      background-color: #1D3253;
+      width: 40px;
+      height: 40px;
+      min-width: 0px;
+
+      &:hover {
+        color: #fff;
+        background-color: #084460;
+
+        svg {
+          color: #00FFFF;
+        }
+      }
+
+      &.Active {
+        color: #fff;
+        background-color: #084460;
+
+        svg {
+          color: #00FFFF;
+        }
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      .Icon {
+        width: 40px;
+        height: 40px;
+        position: relative;
+
+        svg {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 24px;
+          height: 24px;
+          transition: .25s;
+        }
+      }
+
+      :global(p.MuiTypography-root) {
+        flex: 1;
+        min-width: 140px;
+        text-align: left;
+        padding: $space-3 $space-1;
+        font-size: $text-body2;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .TopWidget {
+    top: 20px;
+  }
+
+  .ZoomWidget {
+    bottom: 20px;
+
+    .BoxNumber {
+      background-color: #1D3253;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .TopWidgetDetail {
+    padding: $space-6;
+    background-color: #132238;
+    position: fixed;
+    top: 20px;
+    right: 120px;
+    border-radius: 12px;
+    z-index: 100;
+    min-width: 244px;
+    transition: .3s;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(20px);
+
+    &.Show {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .Header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: $space-2;
+      color: #fff;
+      border-bottom: 1px solid #314969;
+      padding-bottom: $space-3;
+      margin-bottom: $space-3;
+
+      p {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .Icon {
+        width: 40px;
+        height: 40px;
+        background-color: #084460;
+        position: relative;
+        border-radius: 12px;
+
+        svg {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 24px;
+          height: 24px;
+          color: #00FFFF;
+        }
+
+
+      }
+    }
+
+    .ListOption {
+      display: flex;
+      flex-direction: column;
+      gap: $space-4;
+      color: #fff;
+
+      :global(.MuiFormControlLabel-root) {
+        align-items: center;
+
+        div {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+
+          p {
+            line-height: 0px;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+export type TVariant = "neutral" | "primary" | "secondary" | "success" | "info" | "warning" | "danger"
 export const neutral = {
   25: "#f9fafb",
   50: "#f8fafc",

@@ -2,11 +2,12 @@
   width: 240px;
   height: calc(100vh - ($space-5 * 2));
   border-radius: 12px;
-  background: linear-gradient(180deg, #12243B 0%, #121F33 29.37%, #111527 100%);
+  background: linear-gradient(180deg, #12243b 0%, #121f33 29.37%, #111527 100%);
   padding: 24px 20px;
   color: #fff;
   overflow: auto;
-  transition: .5s;
+  transition: 0.5s;
+  z-index: 999;
 
   &.Floating {
     position: fixed;
@@ -19,7 +20,6 @@
 
       .InputSearch {
         width: 100%;
-
       }
 
       .Menu {
@@ -69,13 +69,13 @@
     .Subtitle {
       font-size: $text-caption;
       font-weight: 500;
-      color: #6D83A2;
+      color: #6d83a2;
     }
   }
 
   .InputSearch {
     background-color: transparent;
-    border: 1px solid #1D3253;
+    border: 1px solid #1d3253;
     border-radius: 12px;
     margin-top: $space-6;
     color: #fff;
@@ -88,7 +88,7 @@
     }
 
     svg {
-      color: #6D83A2;
+      color: #6d83a2;
     }
   }
 
@@ -105,7 +105,7 @@
       justify-content: flex-start;
       border-radius: 12px;
       background-color: transparent;
-      color: #6D83A2;
+      color: #6d83a2;
       padding: 0px 4px;
       min-width: 0px;
 
@@ -113,7 +113,7 @@
         color: #fff;
 
         svg {
-          color: #00FFFF;
+          color: #00ffff;
         }
       }
 
@@ -122,7 +122,7 @@
         background-color: #084460;
 
         svg {
-          color: #00FFFF;
+          color: #00ffff;
         }
       }
 
@@ -142,7 +142,7 @@
           transform: translate(-50%, -50%);
           width: 24px;
           height: 24px;
-          transition: .25s;
+          transition: 0.25s;
         }
       }
 
@@ -165,13 +165,13 @@
       border-radius: 12px;
 
       .Menu {
-        color: #6A9C95;
+        color: #6a9c95;
 
         &:hover {
           color: #fff;
 
           svg {
-            color: #00DC8D;
+            color: #00dc8d;
           }
         }
 
@@ -180,7 +180,7 @@
           background-color: #084460;
 
           svg {
-            color: #00DC8D;
+            color: #00dc8d;
           }
         }
       }

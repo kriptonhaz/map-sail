@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@mui/material": "^5.14.20",
     "@mui/x-data-grid": "^6.18.4",
+    "@tanstack/react-query": "^5.15.0",
     "apexcharts": "^3.44.2",
     "axios": "^1.6.2",
     "feather-icons": "^4.29.1",

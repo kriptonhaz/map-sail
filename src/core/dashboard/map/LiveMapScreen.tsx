@@ -16,7 +16,7 @@ import {
   Add,
   Minus,
 } from "iconsax-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./LiveMapScreen.module.scss";
 import iconCargo from "@/assets/cursor/cargo-icon.svg";
 import iconTank from "@/assets/cursor/tank-icon.svg";
@@ -30,6 +30,7 @@ import iconUnspecific from "@/assets/cursor/unspecific-icon.svg";
 import { combineClasses } from "@/utils/style";
 import DetailLocation from "./DetailLocation";
 import { RenderMap } from "@/components/Map";
+import { useAisHook } from "@/hooks/use-ais.hooks";
 
 enum EWidget {
   NONE,
@@ -41,7 +42,10 @@ const LiveMapScreen: React.FC = () => {
   const [activeWidgetDetail, setActiveWidgetDetail] = useState<EWidget>(
     EWidget.NONE
   );
-  const [zoom, setZoom] = useState<number>(0);
+  const [zoom, setZoom] = useState<number>(7);
+  const { listAllShip } = useAisHook();
+  const { data: dataShip } = listAllShip();
+  const [selectedShip, setSelectedShip] = useState<string | null>(null);
 
   const closeDetailWidget = (event: MouseEvent | TouchEvent) => {
     // TODO : Bug to click widget detail
@@ -71,9 +75,21 @@ const LiveMapScreen: React.FC = () => {
     setZoom(zoom - 1);
   };
 
+  const handleSelectShip = (shipId: string) => {
+    setSelectedShip(shipId);
+  };
+
+  const handleCloseMarkerDetail = () => {
+    setSelectedShip(null);
+  };
+
   return (
     <Box className={classes.Container}>
-      <RenderMap zoom={zoom} />
+      <RenderMap
+        zoom={zoom}
+        shipData={dataShip?.data}
+        selectShip={handleSelectShip}
+      />
 
       <ClickAwayListener onClickAway={closeDetailWidget}>
         <Box
@@ -226,7 +242,12 @@ const LiveMapScreen: React.FC = () => {
         </Button>
       </Box>
 
-      {/* <DetailLocation /> */}
+      {selectedShip && (
+        <DetailLocation
+          shipData={dataShip?.data.filter((ar) => ar.Uuid === selectedShip)[0]}
+          onClose={handleCloseMarkerDetail}
+        />
+      )}
     </Box>
   );
 };

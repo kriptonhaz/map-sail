@@ -2,17 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import BlueShipIcon from "../../assets/cursor/passanger-icon.svg";
-
-type ShipPositionType = {
-  packetType: string;
-  channel: string;
-  userId: string;
-  position: LatLngExpression;
-  navigationStatus: string;
-};
+import { IShipData } from "@/interfaces/ais.interface";
 
 type RenderMapProps = {
   zoom: number;
+  shipData?: IShipData[];
+  selectShip?: (shipId: string) => void;
 };
 
 export const RenderMap = (props: RenderMapProps) => {
@@ -21,35 +16,12 @@ export const RenderMap = (props: RenderMapProps) => {
     -6.125443, 106.819634,
   ]);
   const marker = useRef<L.Marker[]>([]);
-  const shipPosition: ShipPositionType[] = [
-    {
-      packetType: "AIVDM",
-      channel: "A",
-      userId: "220193000",
-      position: [-5.929687, 106.768561],
-      navigationStatus: "Under way using engine",
-    },
-    {
-      packetType: "AIVDM",
-      channel: "B",
-      userId: "129193000",
-      position: [-6.075288837859827, 106.8387856018099],
-      navigationStatus: "Under way using engine",
-    },
-    {
-      packetType: "AIVDM",
-      channel: "A",
-      userId: "124393000",
-      position: [-6.013671149772505, 106.95943383078084],
-      navigationStatus: "Under way using engine",
-    },
-  ];
-  const zoom = 10;
 
   const getMarkerIcon = () => {
     return L.icon({
       iconUrl: BlueShipIcon,
       iconSize: L.point(30, 45),
+      iconAnchor: [10, 10],
     });
   };
 
@@ -90,28 +62,29 @@ export const RenderMap = (props: RenderMapProps) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {shipPosition.map((item, index) => (
-          <Marker
-            position={item.position}
-            icon={getMarkerIcon()}
-            // @ts-ignore
-            ref={(ar) => (marker.current[index] = ar)}
-            key={item.userId}
-          >
-            <Popup>
-              Packet Type: {item.packetType}
-              <br />
-              Channel: {item.channel}
-              <br />
-              User ID: {item.userId}
-              <br />
-              Navigation Status: {item.navigationStatus}
-            </Popup>
-          </Marker>
-        ))}
+        {props.shipData &&
+          props.shipData.map((item, index) => {
+            return (
+              <Marker
+                position={[item.Latitude, item.Longitude]}
+                icon={getMarkerIcon()}
+                // @ts-ignore
+                ref={(ar) => (marker.current[index] = ar)}
+                title={item.Uuid}
+                key={item.UserID}
+                eventHandlers={{
+                  click: (e) => {
+                    if (props.selectShip) {
+                      props.selectShip(e.target.options.title);
+                    }
+                  },
+                }}
+              ></Marker>
+            );
+          })}
       </MapContainer>
     ),
-    []
+    [props.shipData]
   );
 
   return <div>{displayMap}</div>;

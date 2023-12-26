@@ -1,15 +1,38 @@
-import React, { useState } from "react"
-import classes from "./DetailLocation.module.scss"
-import { Box, Card, Stack, Typography } from "@mui/material"
-import BoxIcon from "@/components/BoxIcon"
-import { Drop } from "iconsax-react"
-import iconProgressPointer from "@/assets/icon-progress-pointer.svg"
+import React, { useState } from "react";
+import classes from "./DetailLocation.module.scss";
+import {
+  Box,
+  Card,
+  CardHeader,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import BoxIcon from "@/components/BoxIcon";
+import { Drop, CloseCircle } from "iconsax-react";
+import iconProgressPointer from "@/assets/icon-progress-pointer.svg";
+import { IShipData } from "@/interfaces/ais.interface";
 
-const DetailLocation: React.FC = () => {
-  const [currentProgress, setCurrentProgress] = useState(40)
+type MarkerDetailProps = {
+  shipData?: IShipData;
+  onClose?: () => void;
+};
+
+const DetailLocation: React.FC<MarkerDetailProps> = (
+  props?: MarkerDetailProps
+) => {
+  const [currentProgress, setCurrentProgress] = useState(30);
 
   return (
     <Card className={classes.Container} sx={{ top: "5%", left: "50%" }}>
+      <CardHeader
+        action={
+          <IconButton onClick={props?.onClose}>
+            <CloseCircle />
+          </IconButton>
+        }
+        sx={{ position: "absolute", top: 10, right: 10 }}
+      />
       <Box className={classes.Header}>
         <BoxIcon icon={<Drop />} color="danger" />
         <img
@@ -19,10 +42,14 @@ const DetailLocation: React.FC = () => {
         />
         <Box sx={{ flex: 1 }}>
           <Typography fontWeight={"bold"} lineHeight={"100%"} mt={1}>
-            NAVIOS MERIDIAN NUMERO UNOS
+            {props?.shipData?.Name === "" ? "N/A" : props?.shipData?.Name}
           </Typography>
-          <Typography fontWeight={"bold"} variant="caption" color="text.secondary">
-            CRUD OIL TANKER
+          <Typography
+            fontWeight={"bold"}
+            variant="caption"
+            color="text.secondary"
+          >
+            CRUISE SHIP
           </Typography>
         </Box>
       </Box>
@@ -33,14 +60,17 @@ const DetailLocation: React.FC = () => {
             background: `url(https://media.cntraveler.com/photos/64ee0d3dfc1c4bfeb07d7276/4:3/w_2624,h_1968,c_limit/Disney%20Treasure%20-%20Exterior%202.jpg)`,
           }}
         ></Box>
-        <Typography className={classes.Description}>
+        {/* <Typography className={classes.Description}>
           Received : <b>6 minutes ago</b> (AIS Source : <b>MALAGA AGP</b>)
-        </Typography>
+        </Typography> */}
       </Box>
       <Box className={classes.Progress}>
         <span></span>
         <Box className={classes.ProgressTrack}>
-          <span className={classes.CurrentProgress} style={{ width: `${currentProgress}%` }}></span>
+          <span
+            className={classes.CurrentProgress}
+            style={{ width: `${currentProgress}%` }}
+          ></span>
           <img
             src={iconProgressPointer}
             className={classes.ProgressThumb}
@@ -50,21 +80,21 @@ const DetailLocation: React.FC = () => {
       </Box>
       <Box className={classes.DataJourney}>
         <Box sx={{ flex: 1 }}>
-          <Typography mb={2}>
+          {/* <Typography mb={2}>
             FR <b>MRS</b>
-          </Typography>
+          </Typography> */}
           <Box className={classes.Box}>
             <Typography fontWeight={"bold"}>ETD</Typography>
-            <Typography>2023-12-04 19:51</Typography>
+            <Typography>N/A</Typography>
           </Box>
         </Box>
         <Box sx={{ flex: 1 }}>
-          <Typography mb={2}>
+          {/* <Typography mb={2}>
             MA <b>PTM</b>
-          </Typography>
+          </Typography> */}
           <Box className={classes.Box}>
             <Typography fontWeight={"bold"}>ETA</Typography>
-            <Typography>2023-12-06 12:45</Typography>
+            <Typography>N/A</Typography>
           </Box>
         </Box>
       </Box>
@@ -72,31 +102,37 @@ const DetailLocation: React.FC = () => {
       <Stack direction={"column"} spacing={3}>
         <Box>
           <Typography className={classes.Label}>Latitude</Typography>
-          <Typography className={classes.Value}>565,86868</Typography>
+          <Typography className={classes.Value}>
+            {props?.shipData?.Latitude}
+          </Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Longitude</Typography>
-          <Typography className={classes.Value}>45,5645JH645</Typography>
+          <Typography className={classes.Value}>
+            {props?.shipData?.Longitude}
+          </Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Navigational Status</Typography>
-          <Typography className={classes.Value}>Underway Using Engine</Typography>
+          <Typography className={classes.Value}>N/A</Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Speed / Course</Typography>
-          <Typography className={classes.Value}>16.4KN / 261 °</Typography>
+          <Typography className={classes.Value}>N/A</Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Draught</Typography>
-          <Typography className={classes.Value}>6.1M</Typography>
+          <Typography className={classes.Value}>N/A</Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Heading</Typography>
-          <Typography className={classes.Value}>98 °</Typography>
+          <Typography className={classes.Value}>
+            {props?.shipData?.Cog} °
+          </Typography>
         </Box>
       </Stack>
     </Card>
-  )
-}
+  );
+};
 
-export default DetailLocation
+export default DetailLocation;

@@ -1,20 +1,35 @@
-import imgMap from "@/assets/map-preview.jpg"
-import Checkbox from "@/components/Checkbox"
-import { Box, Button, ClickAwayListener, FormControlLabel, Switch, Typography } from "@mui/material"
-import { ArrowDown2, ArrowRight2, ArrowUp2, Chart, Colorfilter, Judge, Layer } from "iconsax-react"
-import React, { useState } from "react"
-import classes from "./LiveMapScreen.module.scss"
-import iconCargo from "@/assets/cursor/cargo-icon.svg"
-import iconTank from "@/assets/cursor/tank-icon.svg"
-import iconPassenger from "@/assets/cursor/passanger-icon.svg"
-import iconFishing from "@/assets/cursor/fishing-icon.svg"
-import iconHighspeed from "@/assets/cursor/highspeed-icon.svg"
-import iconTugs from "@/assets/cursor/tugs-icon.svg"
-import iconPleasure from "@/assets/cursor/pleasure-icon.svg"
-import iconNavAids from "@/assets/cursor/navaids-icon.svg"
-import iconUnspecific from "@/assets/cursor/unspecific-icon.svg"
-import { combineClasses } from "@/utils/style"
-import DetailLocation from "./DetailLocation"
+import Checkbox from "@/components/Checkbox";
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  FormControlLabel,
+  Switch,
+  Typography,
+} from "@mui/material";
+import {
+  ArrowRight2,
+  Chart,
+  Colorfilter,
+  Judge,
+  Layer,
+  Add,
+  Minus,
+} from "iconsax-react";
+import React, { useState } from "react";
+import classes from "./LiveMapScreen.module.scss";
+import iconCargo from "@/assets/cursor/cargo-icon.svg";
+import iconTank from "@/assets/cursor/tank-icon.svg";
+import iconPassenger from "@/assets/cursor/passanger-icon.svg";
+import iconFishing from "@/assets/cursor/fishing-icon.svg";
+import iconHighspeed from "@/assets/cursor/highspeed-icon.svg";
+import iconTugs from "@/assets/cursor/tugs-icon.svg";
+import iconPleasure from "@/assets/cursor/pleasure-icon.svg";
+import iconNavAids from "@/assets/cursor/navaids-icon.svg";
+import iconUnspecific from "@/assets/cursor/unspecific-icon.svg";
+import { combineClasses } from "@/utils/style";
+import DetailLocation from "./DetailLocation";
+import { RenderMap } from "@/components/Map";
 
 enum EWidget {
   NONE,
@@ -23,28 +38,42 @@ enum EWidget {
 }
 
 const LiveMapScreen: React.FC = () => {
-  const [activeWidgetDetail, setActiveWidgetDetail] = useState<EWidget>(EWidget.NONE)
+  const [activeWidgetDetail, setActiveWidgetDetail] = useState<EWidget>(
+    EWidget.NONE
+  );
+  const [zoom, setZoom] = useState<number>(0);
 
   const closeDetailWidget = (event: MouseEvent | TouchEvent) => {
-    // !TODO : Bug to click widget detail
-    const element = event.target as HTMLElement
-    const tagName = element.tagName?.toLowerCase()
-    let parentEl = null
+    // TODO : Bug to click widget detail
+    const element = event.target as HTMLElement;
+    const tagName = element.tagName?.toLowerCase();
+    let parentEl = null;
     if (/button/.test(tagName)) {
-      parentEl = element
+      parentEl = element;
     } else if (/svg/.test(tagName)) {
-      parentEl = element.parentElement
+      parentEl = element.parentElement;
     } else if (/path/.test(tagName)) {
-      parentEl = element.parentElement?.parentElement
+      parentEl = element.parentElement?.parentElement;
     }
-    if (activeWidgetDetail !== EWidget.NONE && parentEl?.getAttribute("data-widget") !== "top") {
-      setActiveWidgetDetail(EWidget.NONE)
+    if (
+      activeWidgetDetail !== EWidget.NONE &&
+      parentEl?.getAttribute("data-widget") !== "top"
+    ) {
+      setActiveWidgetDetail(EWidget.NONE);
     }
-  }
+  };
+
+  const increaseZoom = () => {
+    setZoom(zoom + 1);
+  };
+
+  const decreaseZoom = () => {
+    setZoom(zoom - 1);
+  };
 
   return (
     <Box className={classes.Container}>
-      <img src={imgMap} style={{ width: "100vw", height: "100vh" }} />
+      <RenderMap zoom={zoom} />
 
       <ClickAwayListener onClickAway={closeDetailWidget}>
         <Box
@@ -133,7 +162,10 @@ const LiveMapScreen: React.FC = () => {
                 </div>
               }
             />
-            <FormControlLabel label="Filter Active" control={<Switch sx={{ mr: 3, ml: 2 }} />} />
+            <FormControlLabel
+              label="Filter Active"
+              control={<Switch sx={{ mr: 3, ml: 2 }} />}
+            />
           </Box>
         </Box>
       </ClickAwayListener>
@@ -164,7 +196,11 @@ const LiveMapScreen: React.FC = () => {
       </ClickAwayListener>
 
       <Box className={classes.TopWidget}>
-        <Button className={classes.Menu} data-widget="top" onClick={() => setActiveWidgetDetail(EWidget.SHIP_TYPE)}>
+        <Button
+          className={classes.Menu}
+          data-widget="top"
+          onClick={() => setActiveWidgetDetail(EWidget.SHIP_TYPE)}
+        >
           <Colorfilter />
         </Button>
         <Button
@@ -182,20 +218,17 @@ const LiveMapScreen: React.FC = () => {
         </Button>
       </Box>
       <Box className={classes.ZoomWidget}>
-        <Button className={classes.Menu}>
-          <ArrowUp2 />
+        <Button className={classes.Menu} onClick={increaseZoom}>
+          <Add />
         </Button>
-        <Box className={classes.BoxNumber}>
-          <Typography>1</Typography>
-        </Box>
-        <Button className={classes.Menu}>
-          <ArrowDown2 />
+        <Button className={classes.Menu} onClick={decreaseZoom}>
+          <Minus />
         </Button>
       </Box>
 
-      <DetailLocation />
+      {/* <DetailLocation /> */}
     </Box>
-  )
-}
+  );
+};
 
-export default LiveMapScreen
+export default LiveMapScreen;

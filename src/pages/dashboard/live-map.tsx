@@ -1,8 +1,8 @@
-import Sidebar from "@/components/Sidebar"
-import { CircularProgress } from "@mui/material"
-import React, { lazy, Suspense } from "react"
+import Sidebar from "@/components/Sidebar";
+import { CircularProgress } from "@mui/material";
+import React, { lazy, Suspense } from "react";
 
-const LiveMapScreen = lazy(() => import("@/core/dashboard/map"))
+const LiveMapScreen = lazy(() => import("@/core/dashboard/map"));
 
 const LiveMapPage: React.FC = () => {
   return (
@@ -10,7 +10,7 @@ const LiveMapPage: React.FC = () => {
       <Sidebar isFloating isExpand={false} />
       <LiveMapScreen />
     </Suspense>
-  )
-}
+  );
+};
 
-export default LiveMapPage
+export default LiveMapPage;

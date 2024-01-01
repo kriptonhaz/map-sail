@@ -1,8 +1,8 @@
-import React, { useState } from "react"
-import classes from "./Sidebar.module.scss"
-import { Box, Input, InputAdornment, Typography } from "@mui/material"
-import Logo from "@/assets/logo.png"
-import { SidebarMenu } from "./SidebarMenu"
+import React, { useEffect, useState } from "react";
+import classes from "./Sidebar.module.scss";
+import { Box, Input, InputAdornment, Typography } from "@mui/material";
+import Logo from "@/assets/logo.png";
+import { SidebarMenu } from "./SidebarMenu";
 import {
   ArrowSquare,
   Box1,
@@ -19,26 +19,72 @@ import {
   Setting5,
   Ship,
   User,
-} from "iconsax-react"
-import { combineClasses } from "@/utils/style"
+} from "iconsax-react";
+import { combineClasses } from "@/utils/style";
+import { useFormContext } from "react-hook-form";
+import { ISearchForm } from "@/core/dashboard/map/LiveMapScreen";
+import SearchResult from "../Search/SearchResult";
+import { queryClient } from "@/service/QueryClient";
+import { IShipData, IShipResponse } from "@/interfaces/ais.interface";
 
 export interface ISidebarProps {
-  isFloating?: boolean
-  isExpand?: boolean
+  isFloating?: boolean;
+  isExpand?: boolean;
+  handleClickResult?: (userId: number) => void;
 }
-const Sidebar: React.FC<ISidebarProps> = ({ isFloating = false, isExpand: defaultExpand = true }) => {
-  const [isExpand, setIsExpand] = useState(defaultExpand)
+const Sidebar: React.FC<ISidebarProps> = ({
+  isFloating = false,
+  isExpand: defaultExpand = true,
+  handleClickResult,
+}) => {
+  const [isExpand, setIsExpand] = useState(defaultExpand);
+  const [searchResult, setSearchResult] = useState<IShipData[]>([]);
+  const [showResult, setShowResult] = useState(false);
+  const { register, watch } = useFormContext<ISearchForm>();
+  const dataShip: IShipResponse | undefined = queryClient.getQueryData([
+    "ais-all-ship",
+  ]);
+
+  useEffect(() => {
+    if (dataShip && watch("searchData").length > 0) {
+      let filterShip = dataShip.data.filter(
+        (ar) =>
+          ar.Name.toLowerCase().indexOf(watch("searchData").toLowerCase()) >
+            -1 || ar.UserID.toString() === watch("searchData")
+      );
+      setSearchResult(filterShip);
+      setShowResult(true);
+    } else if (watch("searchData").length === 0) {
+      setShowResult(false);
+    }
+  }, [dataShip, watch("searchData")]);
 
   return (
-    <Box className={combineClasses([classes.Container, !isExpand && classes.Collapse, isFloating && classes.Floating])}>
+    <Box
+      className={combineClasses([
+        classes.Container,
+        !isExpand && classes.Collapse,
+        isFloating && classes.Floating,
+      ])}
+    >
+      <SearchResult
+        dataResult={searchResult}
+        isHide={!showResult}
+        onClickResult={handleClickResult}
+      />
       <Box className={classes.Header}>
-        <img src={Logo} alt="Mantraocean logo" onClick={() => setIsExpand(!isExpand)} />
+        <img
+          src={Logo}
+          alt="Mantraocean logo"
+          onClick={() => setIsExpand(!isExpand)}
+        />
         <Box>
           <Typography className={classes.Title}>Mantraocean</Typography>
           <Typography className={classes.Subtitle}>Mantraocean.com</Typography>
         </Box>
       </Box>
       <Input
+        {...register("searchData")}
         className={classes.InputSearch}
         placeholder="Search"
         startAdornment={
@@ -66,7 +112,7 @@ const Sidebar: React.FC<ISidebarProps> = ({ isFloating = false, isExpand: defaul
         <SidebarMenu icon={<User />} menu="Account" />
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

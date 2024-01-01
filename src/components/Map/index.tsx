@@ -5,13 +5,14 @@ import BlueShipIcon from "../../assets/cursor/passanger-icon.svg";
 import { IShipData } from "@/interfaces/ais.interface";
 
 type RenderMapProps = {
+  map: L.Map | null;
+  setMap: (map: L.Map | null) => void;
   zoom: number;
   shipData?: IShipData[];
   selectShip?: (shipId: string) => void;
 };
 
 export const RenderMap = (props: RenderMapProps) => {
-  const [map, setMap] = useState<L.Map | null>(null);
   const [position, setPosition] = useState<LatLngExpression>([
     -6.125443, 106.819634,
   ]);
@@ -26,27 +27,27 @@ export const RenderMap = (props: RenderMapProps) => {
   };
 
   useEffect(() => {
-    if (map) {
-      map.setView(position, props.zoom);
+    if (props.map) {
+      props.map.setView(position, props.zoom);
     }
-  }, [props.zoom, map]);
+  }, [props.zoom, props.map]);
 
   const onMove = useCallback(() => {
-    if (map) {
-      setPosition(map.getCenter());
+    if (props.map) {
+      setPosition(props.map.getCenter());
     }
-  }, [map]);
+  }, [props.map]);
 
   useEffect(() => {
-    if (map) {
-      map.on("move", onMove);
+    if (props.map) {
+      props.map.on("move", onMove);
     }
     return () => {
-      if (map) {
-        map.off("move", onMove);
+      if (props.map) {
+        props.map.off("move", onMove);
       }
     };
-  }, [map, onMove]);
+  }, [props.map, onMove]);
 
   const displayMap = useMemo(
     () => (
@@ -54,7 +55,7 @@ export const RenderMap = (props: RenderMapProps) => {
         center={position}
         zoom={props.zoom}
         scrollWheelZoom={true}
-        ref={setMap}
+        ref={props.setMap}
         zoomControl={true}
         style={{ width: "100vw", height: "100vh", zIndex: 0 }}
       >

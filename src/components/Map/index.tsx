@@ -53,9 +53,9 @@ export const RenderMap = (props: RenderMapProps) => {
       <MapContainer
         center={position}
         zoom={props.zoom}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         ref={setMap}
-        zoomControl={false}
+        zoomControl={true}
         style={{ width: "100vw", height: "100vh", zIndex: 0 }}
       >
         <TileLayer

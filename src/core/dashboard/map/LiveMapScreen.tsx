@@ -16,7 +16,7 @@ import {
   Add,
   Minus,
 } from "iconsax-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classes from "./LiveMapScreen.module.scss";
 import iconCargo from "@/assets/cursor/cargo-icon.svg";
 import iconTank from "@/assets/cursor/tank-icon.svg";

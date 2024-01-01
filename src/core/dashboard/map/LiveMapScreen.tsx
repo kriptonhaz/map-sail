@@ -31,11 +31,17 @@ import { combineClasses } from "@/utils/style";
 import DetailLocation from "./DetailLocation";
 import { RenderMap } from "@/components/Map";
 import { useAisHook } from "@/hooks/use-ais.hooks";
+import Sidebar from "@/components/Sidebar";
+import { useForm, FormProvider } from "react-hook-form";
 
 enum EWidget {
   NONE,
   SHIP_TYPE,
   CURRENT_STATUS,
+}
+
+export interface ISearchForm {
+  searchData: string;
 }
 
 const LiveMapScreen: React.FC = () => {
@@ -46,6 +52,12 @@ const LiveMapScreen: React.FC = () => {
   const { listAllShip } = useAisHook();
   const { data: dataShip } = listAllShip();
   const [selectedShip, setSelectedShip] = useState<string | null>(null);
+  const [map, setMap] = useState<L.Map | null>(null);
+  const methods = useForm<ISearchForm>({
+    defaultValues: {
+      searchData: "",
+    },
+  });
 
   const closeDetailWidget = (event: MouseEvent | TouchEvent) => {
     // TODO : Bug to click widget detail
@@ -83,9 +95,29 @@ const LiveMapScreen: React.FC = () => {
     setSelectedShip(null);
   };
 
+  const handleClickResult = (userId: number) => {
+    let selectedResult = dataShip?.data.filter((ar) => ar.UserID === userId)[0];
+    methods.setValue("searchData", "");
+    if (selectedResult) {
+      map?.setView([selectedResult?.Latitude, selectedResult?.Longitude], 15);
+      handleSelectShip(selectedResult.Uuid);
+    }
+  };
+
   return (
     <Box className={classes.Container}>
+      <FormProvider {...methods}>
+        <form>
+          <Sidebar
+            isFloating
+            isExpand={false}
+            handleClickResult={handleClickResult}
+          />
+        </form>
+      </FormProvider>
       <RenderMap
+        map={map}
+        setMap={setMap}
         zoom={zoom}
         shipData={dataShip?.data}
         selectShip={handleSelectShip}

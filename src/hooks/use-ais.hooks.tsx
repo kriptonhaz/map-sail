@@ -6,6 +6,7 @@ export const useAisHook = () => {
     useQuery({
       queryKey: ["ais-all-ship"],
       queryFn: () => getAllShipPosition(),
+      refetchInterval: 30000,
     });
 
   return {

@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import BlueShipIcon from "../../assets/cursor/passanger-icon.svg";
 import { IShipData } from "@/interfaces/ais.interface";
+import "leaflet-rotatedmarker";
 
 type RenderMapProps = {
   map: L.Map | null;
@@ -21,7 +22,7 @@ export const RenderMap = (props: RenderMapProps) => {
   const getMarkerIcon = () => {
     return L.icon({
       iconUrl: BlueShipIcon,
-      iconSize: L.point(30, 45),
+      iconSize: L.point(20, 20),
       iconAnchor: [10, 10],
     });
   };
@@ -80,6 +81,8 @@ export const RenderMap = (props: RenderMapProps) => {
                     }
                   },
                 }}
+                // @ts-ignore
+                rotationAngle={item.Cog}
               ></Marker>
             );
           })}

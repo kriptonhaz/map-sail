@@ -12,6 +12,7 @@ import BoxIcon from "@/components/BoxIcon";
 import { Drop, CloseCircle } from "iconsax-react";
 import iconProgressPointer from "@/assets/icon-progress-pointer.svg";
 import { IShipData } from "@/interfaces/ais.interface";
+import ShipPlaceholder from "@/assets/ship-placeholder.jpeg";
 
 type MarkerDetailProps = {
   shipData?: IShipData;
@@ -54,12 +55,11 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
         </Box>
       </Box>
       <Box className={classes.Thumbnail}>
-        <Box
-          className={classes.Image}
-          sx={{
-            background: `url(https://media.cntraveler.com/photos/64ee0d3dfc1c4bfeb07d7276/4:3/w_2624,h_1968,c_limit/Disney%20Treasure%20-%20Exterior%202.jpg)`,
-          }}
-        ></Box>
+        <img
+          className="Image"
+          style={{ width: "100%", height: undefined, aspectRatio: 11 / 6 }}
+          src={ShipPlaceholder}
+        />
         {/* <Typography className={classes.Description}>
           Received : <b>6 minutes ago</b> (AIS Source : <b>MALAGA AGP</b>)
         </Typography> */}

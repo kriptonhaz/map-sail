@@ -11,7 +11,7 @@ import {
 import BoxIcon from "@/components/BoxIcon";
 import { Drop, CloseCircle } from "iconsax-react";
 import iconProgressPointer from "@/assets/icon-progress-pointer.svg";
-import { IShipData } from "@/interfaces/ais.interface";
+import { EtaFormat, IShipData } from "@/interfaces/ais.interface";
 import ShipPlaceholder from "@/assets/ship-placeholder.jpeg";
 
 type MarkerDetailProps = {
@@ -23,6 +23,15 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
   props?: MarkerDetailProps
 ) => {
   const [currentProgress, setCurrentProgress] = useState(30);
+
+  const formatEta = (etaRaw: string | undefined): string => {
+    if (etaRaw) {
+      const etaParse = JSON.parse(etaRaw) as EtaFormat;
+      return `Month: ${etaParse.Month} Day: ${etaParse.Day} Hour: ${etaParse.Hour} Minute: ${etaParse.Minute}`;
+    } else {
+      return "N/A";
+    }
+  };
 
   return (
     <Card className={classes.Container} sx={{ top: "5%", left: "50%" }}>
@@ -50,7 +59,10 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
             variant="caption"
             color="text.secondary"
           >
-            CRUISE SHIP
+            IMO:{" "}
+            {props?.shipData?.ImoNumber === 0
+              ? "N/A"
+              : props?.shipData?.ImoNumber}
           </Typography>
         </Box>
       </Box>
@@ -64,7 +76,7 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
           Received : <b>6 minutes ago</b> (AIS Source : <b>MALAGA AGP</b>)
         </Typography> */}
       </Box>
-      <Box className={classes.Progress}>
+      {/* <Box className={classes.Progress}>
         <span></span>
         <Box className={classes.ProgressTrack}>
           <span
@@ -77,15 +89,19 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
             style={{ left: `${(88 / 100) * currentProgress}%` }}
           />
         </Box>
-      </Box>
+      </Box> */}
       <Box className={classes.DataJourney}>
         <Box sx={{ flex: 1 }}>
           {/* <Typography mb={2}>
             FR <b>MRS</b>
           </Typography> */}
           <Box className={classes.Box}>
-            <Typography fontWeight={"bold"}>ETD</Typography>
-            <Typography>N/A</Typography>
+            <Typography fontWeight={"bold"}>Destination</Typography>
+            <Typography>
+              {props?.shipData?.Destination === ""
+                ? "N/A"
+                : props?.shipData?.Destination}
+            </Typography>
           </Box>
         </Box>
         <Box sx={{ flex: 1 }}>
@@ -94,7 +110,11 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
           </Typography> */}
           <Box className={classes.Box}>
             <Typography fontWeight={"bold"}>ETA</Typography>
-            <Typography>N/A</Typography>
+            <Typography>
+              {props?.shipData?.Eta === ""
+                ? "N/A"
+                : formatEta(props?.shipData?.Eta)}
+            </Typography>
           </Box>
         </Box>
       </Box>
@@ -111,18 +131,6 @@ const DetailLocation: React.FC<MarkerDetailProps> = (
           <Typography className={classes.Value}>
             {props?.shipData?.Longitude}
           </Typography>
-        </Box>
-        <Box>
-          <Typography className={classes.Label}>Navigational Status</Typography>
-          <Typography className={classes.Value}>N/A</Typography>
-        </Box>
-        <Box>
-          <Typography className={classes.Label}>Speed / Course</Typography>
-          <Typography className={classes.Value}>N/A</Typography>
-        </Box>
-        <Box>
-          <Typography className={classes.Label}>Draught</Typography>
-          <Typography className={classes.Value}>N/A</Typography>
         </Box>
         <Box>
           <Typography className={classes.Label}>Heading</Typography>

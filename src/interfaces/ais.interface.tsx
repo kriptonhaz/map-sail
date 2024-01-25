@@ -23,6 +23,7 @@ export interface IShipData {
   Name: string;
   Type: number;
   Dimension: string;
+  Eta: string;
   FixType: number;
   Raim: boolean;
   Dte: boolean;
@@ -32,4 +33,14 @@ export interface IShipData {
   UpdateAt: string;
   BaseStationIp: string;
   BaseStationPort: string;
+  CallSign: string;
+  ImoNumber: number;
+  Destination: string;
+}
+
+export interface EtaFormat {
+  Month: number;
+  Day: number;
+  Hour: number;
+  Minute: number;
 }

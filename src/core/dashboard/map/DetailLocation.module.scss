@@ -93,6 +93,7 @@
     .Box {
       background-color: $neutral-100;
       padding: $space-3;
+      min-height: 80px;
 
       p {
         font-size: 12px;
@@ -109,7 +110,7 @@
   }
 
   .Value {
-    color: #888CB6;
+    color: #888cb6;
     font-weight: 500;
   }
 }

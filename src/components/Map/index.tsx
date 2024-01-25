@@ -4,6 +4,18 @@ import L, { LatLngExpression } from "leaflet";
 import BlueShipIcon from "../../assets/cursor/passanger-icon.svg";
 import { IShipData } from "@/interfaces/ais.interface";
 import "leaflet-rotatedmarker";
+import {
+  Box,
+  Card,
+  CardHeader,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+// import classes from "./style.module.scss";
+import BoxIcon from "../BoxIcon";
+import { Drop } from "iconsax-react";
+import ShipPlaceholder from "@/assets/ship-placeholder.jpeg";
 
 type RenderMapProps = {
   map: L.Map | null;
@@ -83,7 +95,51 @@ export const RenderMap = (props: RenderMapProps) => {
                 }}
                 // @ts-ignore
                 rotationAngle={item.Cog}
-              ></Marker>
+              >
+                {/* TODO: need to fix the styling */}
+                {/* <Popup className={classes.Popup}>
+                  <Card className={classes.Container}>
+                    <Box className={classes.Header}>
+                      <BoxIcon icon={<Drop />} color="danger" />
+                      <img
+                        className="country"
+                        style={{
+                          width: "52px",
+                          filter: "drop-shadow(0px 0px 0.5px #000)",
+                        }}
+                        src="https://flagsapi.com/ID/flat/64.png"
+                      />
+                      <Box sx={{ flex: 1 }}>
+                        <Typography
+                          fontWeight={"bold"}
+                          lineHeight={"100%"}
+                          mt={1}
+                        >
+                          {item.Name === "" ? "N/A" : item.Name}
+                        </Typography>
+                        <Typography
+                          fontWeight={"bold"}
+                          variant="caption"
+                          color="text.secondary"
+                        >
+                          IMO: {item?.ImoNumber === 0 ? "N/A" : item?.ImoNumber}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box className={classes.Thumbnail}>
+                      <img
+                        className="Image"
+                        style={{
+                          width: "100%",
+                          height: undefined,
+                          aspectRatio: 11 / 6,
+                        }}
+                        src={ShipPlaceholder}
+                      />
+                    </Box>
+                  </Card>
+                </Popup> */}
+              </Marker>
             );
           })}
       </MapContainer>

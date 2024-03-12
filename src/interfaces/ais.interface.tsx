@@ -36,6 +36,12 @@ export interface IShipData {
   CallSign: string;
   ImoNumber: number;
   Destination: string;
+  Flag: {
+    Id: number;
+    Code: number;
+    Country: string;
+    CountryCode: string;
+  };
 }
 
 export interface EtaFormat {

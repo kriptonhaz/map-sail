@@ -2,17 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
 import BlueShipIcon from "../../assets/cursor/passanger-icon.svg";
-import { IShipData } from "@/interfaces/ais.interface";
+import { EtaFormat, IShipData } from "@/interfaces/ais.interface";
 import "leaflet-rotatedmarker";
-import {
-  Box,
-  Card,
-  CardHeader,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
-// import classes from "./style.module.scss";
+import { Box, Card, Stack, Typography } from "@mui/material";
+import classes from "./style.module.scss";
 import BoxIcon from "../BoxIcon";
 import { Drop } from "iconsax-react";
 import ShipPlaceholder from "@/assets/ship-placeholder.jpeg";
@@ -62,6 +55,15 @@ export const RenderMap = (props: RenderMapProps) => {
     };
   }, [props.map, onMove]);
 
+  const formatEta = (etaRaw: string | undefined): string => {
+    if (etaRaw) {
+      const etaParse = JSON.parse(etaRaw) as EtaFormat;
+      return `Month: ${etaParse.Month} Day: ${etaParse.Day} Hour: ${etaParse.Hour} Minute: ${etaParse.Minute}`;
+    } else {
+      return "N/A";
+    }
+  };
+
   const displayMap = useMemo(
     () => (
       <MapContainer
@@ -83,37 +85,38 @@ export const RenderMap = (props: RenderMapProps) => {
                 position={[item.Latitude, item.Longitude]}
                 icon={getMarkerIcon()}
                 // @ts-ignore
-                ref={(ar) => (marker.current[index] = ar)}
+                // ref={(ar) => (marker.current[index] = ar)}
                 title={item.Uuid}
                 key={item.UserID}
-                eventHandlers={{
-                  click: (e) => {
-                    if (props.selectShip) {
-                      props.selectShip(e.target.options.title);
-                    }
-                  },
-                }}
+                // eventHandlers={{
+                //   click: (e) => {
+                //     if (props.selectShip) {
+                //       props.selectShip(e.target.options.title);
+                //     }
+                //   },
+                // }}
                 // @ts-ignore
                 rotationAngle={item.Cog}
               >
                 {/* TODO: need to fix the styling */}
-                {/* <Popup className={classes.Popup}>
-                  <Card className={classes.Container}>
-                    <Box className={classes.Header}>
+                <Popup className={classes.Popup}>
+                  <Card sx={{ padding: 0 }}>
+                    <Box style={{ display: "flex", alignItems: "center" }}>
                       <BoxIcon icon={<Drop />} color="danger" />
                       <img
                         className="country"
                         style={{
                           width: "52px",
                           filter: "drop-shadow(0px 0px 0.5px #000)",
+                          marginLeft: "5px",
                         }}
-                        src="https://flagsapi.com/ID/flat/64.png"
+                        src={`https://flagsapi.com/${item.Flag.CountryCode}/flat/64.png`}
                       />
-                      <Box sx={{ flex: 1 }}>
+                      <Box sx={{ marginLeft: "5px" }}>
                         <Typography
                           fontWeight={"bold"}
                           lineHeight={"100%"}
-                          mt={1}
+                          sx={{ margin: 0 }}
                         >
                           {item.Name === "" ? "N/A" : item.Name}
                         </Typography>
@@ -130,15 +133,66 @@ export const RenderMap = (props: RenderMapProps) => {
                       <img
                         className="Image"
                         style={{
-                          width: "100%",
-                          height: undefined,
-                          aspectRatio: 11 / 6,
+                          width: "340px",
+                          height: "170px",
+                          marginBottom: "12px",
                         }}
                         src={ShipPlaceholder}
                       />
                     </Box>
+                    <Stack spacing={3} direction={"column"}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "340px",
+                          marginTop: "12px",
+                        }}
+                      >
+                        <Box
+                          className={classes.Box}
+                          sx={{
+                            backgroundColor: "#F5F5F5",
+                            width: "47%",
+                            padding: "5px",
+                          }}
+                        >
+                          <Typography fontWeight={"bold"}>
+                            Destination
+                          </Typography>
+                          <Typography>
+                            {item.Destination === "" ? "N/A" : item.Destination}
+                          </Typography>
+                        </Box>
+                        <Box
+                          className={classes.Box}
+                          sx={{
+                            backgroundColor: "#F5F5F5",
+                            width: "47%",
+                            padding: "5px",
+                          }}
+                        >
+                          <Typography fontWeight={"bold"}>ETA</Typography>
+                          <Typography>
+                            {item.Eta === "" ? "N/A" : formatEta(item.Eta)}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box className={classes.Box}>
+                        <Typography fontWeight={"bold"}>Latitude</Typography>
+                        <Typography>{item.Latitude}</Typography>
+                      </Box>
+                      <Box className={classes.Box}>
+                        <Typography fontWeight={"bold"}>Longitude</Typography>
+                        <Typography>{item.Longitude}</Typography>
+                      </Box>
+                      <Box className={classes.Box}>
+                        <Typography fontWeight={"bold"}>Heading</Typography>
+                        <Typography>{item.Cog} °</Typography>
+                      </Box>
+                    </Stack>
                   </Card>
-                </Popup> */}
+                </Popup>
               </Marker>
             );
           })}

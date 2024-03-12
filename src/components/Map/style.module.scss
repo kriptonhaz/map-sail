@@ -1,6 +1,10 @@
 .Popup {
   & :global(.leaflet-popup-content-wrapper) {
     background-color: white;
+    min-width: 380px;
+  }
+  & :global(.leaflet-popup-content p) {
+    margin: 0;
   }
 }
 
